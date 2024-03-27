@@ -1,5 +1,6 @@
 using GetOnIt.Data;
 using GetOnIt.Models;
+using GetOnIt.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,12 @@ builder.Services.AddDbContext<GetOnItContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Allows you to add an identity (customized) not default,
-builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddDefaultTokenProviders()
+                .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+    //.AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.AddRazorPages();
 

@@ -36,15 +36,15 @@ namespace GetOnIt.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger
-            /*IEmailSender emailSender*/)
+            ILogger<RegisterModel> logger,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -72,13 +72,13 @@ namespace GetOnIt.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
-            [RegularExpression("^[\\p{L} ,.'-]{2.}$", ErrorMessage = "First Name must contain at least 2 characters and letters.")]
+            [Required(ErrorMessage = "First name is required")]
+            [RegularExpression("^[a-zA-Z' -]{2,}$", ErrorMessage = "First Name must contain at least 2 characters, only letters, spaces, hyphens, and apostrophes are allowed.")]
             [StringLength(20, ErrorMessage = "First Name cannot exceed 20 characters")]
             public string FirstName { get; set; }
 
-            [Required]
-            [RegularExpression("^[\\p{L} ,.'-]{2.}$", ErrorMessage = "Last Name must contain at least 2 characters and letters.")]
+            [Required(ErrorMessage = "Last name is required")]
+            [RegularExpression("^[a-zA-Z' -]{2,}$", ErrorMessage = "Last Name must contain at least 2 characters and only letters, spaces, hyphens, and apostrophes are allowed.")]
             [StringLength(20, ErrorMessage = "Last Name cannot exceed 20 characters")]
             public string LastName { get; set; }    
             /// <summary>
