@@ -1,18 +1,38 @@
-﻿namespace GetOnIt.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace GetOnIt.Models
 {
     /// <summary>
-    /// Tasks class will have information of what a user has to do, when they start/deadline, as well as 
-    /// if they have completed it or not.
+    /// Tasks class will have information of what a student has to do 
+    /// So their tasks, priority, type of task, etc.
     /// </summary>
     public class Tasks
     {
-        //Cache the user ID in session when logging in to prevent injectable attacks or spoofing IDs through inputs.
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Specifies Id should be auto-assigned/incremented by 1
         public int Id { get; set; }
-        public string Description { get; set; }
-        public DateTime DateStart { get; set; }
-        public DateTime DateEnd{ get; set; }
-        public bool IsCompleted { get; set; }
 
+        [Required(ErrorMessage = "Enter task description")]
+        public string Description { get; set; }
+
+        [Display(Name = "Start Date")]
+        public DateTime DateStart { get; set; } = DateTime.Today; //default todays date                                                                   
+        
+        [Display(Name = "Deadline")]
+        public DateTime DateEnd{ get; set; }
+
+        [Required(ErrorMessage = "Select Type")]
+        public TaskType Type { get; set; } 
+
+        //Priority Property 
+        [Required(ErrorMessage = "Select Priority")]
+        public TaskPriority Priority { get; set; }
+
+
+
+        [Display(Name = "Task Complete?")]
+        public bool IsCompleted { get; set; }
 
         //Foreign Key to Customer User who "owns" the task
         public string UserId { get; set; } //Using string instead of INT because ASP.NET Core Identity system stores the value as a string.
