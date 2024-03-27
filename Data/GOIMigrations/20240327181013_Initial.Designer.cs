@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetOnIt.Data.GOIMigrations
 {
     [DbContext(typeof(GetOnItContext))]
-    [Migration("20240327075640_Initial")]
+    [Migration("20240327181013_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -96,7 +96,7 @@ namespace GetOnIt.Data.GOIMigrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsCompleted")
+                    b.Property<bool?>("IsCompleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Priority")

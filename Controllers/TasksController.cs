@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GetOnIt.Data;
 using GetOnIt.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace GetOnIt.Controllers
 {
     public class TasksController : Controller
     {
         private readonly GetOnItContext _context;
-
-        public TasksController(GetOnItContext context)
+        private readonly ApplicationDbContext _identityContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public TasksController(GetOnItContext context, ApplicationDbContext identityContext, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _identityContext = identityContext;
+            _userManager = userManager;
         }
 
         // GET: Tasks
@@ -46,10 +50,24 @@ namespace GetOnIt.Controllers
         }
 
         // GET: Tasks/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            Tasks tasks = new Tasks(); //creating a tasks model to pass back to the view
+
+            //Find the current logged in user to create a task to THEIR account
+            var currentUser = await _userManager.GetUserAsync(User);
+            if(currentUser != null)
+            {
+                tasks.UserId = currentUser.Id;
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
             ViewData["UserId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id");
-            return View();
+            return View(tasks);
         }
 
         // POST: Tasks/Create
