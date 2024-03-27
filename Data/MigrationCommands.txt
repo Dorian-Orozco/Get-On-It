@@ -1,0 +1,2 @@
+﻿Add-Migration -Context GetOnItContext -OutputDir Data/GOIMigrations Initial
+Update-database -Context GetOnItContext
