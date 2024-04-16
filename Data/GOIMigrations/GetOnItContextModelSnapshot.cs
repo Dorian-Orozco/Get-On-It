@@ -74,7 +74,7 @@ namespace GetOnIt.Data.GOIMigrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationUser");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("GetOnIt.Models.Tasks", b =>
@@ -107,18 +107,7 @@ namespace GetOnIt.Data.GOIMigrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("GetOnIt.Models.Tasks", b =>
-                {
-                    b.HasOne("GetOnIt.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

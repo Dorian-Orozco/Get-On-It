@@ -12,7 +12,26 @@ namespace GetOnIt.Data.GOIMigrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ApplicationUser",
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    DateStart = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Priority = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
@@ -35,37 +54,8 @@ namespace GetOnIt.Data.GOIMigrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Tasks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    DateStart = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Type = table.Column<int>(type: "INTEGER", nullable: false),
-                    Priority = table.Column<int>(type: "INTEGER", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tasks_ApplicationUser_UserId",
-                        column: x => x.UserId,
-                        principalTable: "ApplicationUser",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_UserId",
-                table: "Tasks",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -75,7 +65,7 @@ namespace GetOnIt.Data.GOIMigrations
                 name: "Tasks");
 
             migrationBuilder.DropTable(
-                name: "ApplicationUser");
+                name: "Users");
         }
     }
 }

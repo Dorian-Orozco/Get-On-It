@@ -17,10 +17,14 @@ namespace GetOnIt.Models
         public string Description { get; set; }
 
         [Display(Name = "Start Date")]
-        public DateTime DateStart { get; set; } = DateTime.Today; //default todays date                                                                   
-        
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DateStart { get; set; }
+
+        [DataType(DataType.Date)]
         [Display(Name = "Deadline")]
-        public DateTime DateEnd{ get; set; } 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DateEnd { get; set; }
 
         [Required(ErrorMessage = "Select Type")]
         [Display(Name = "Type of Task")]
@@ -31,14 +35,10 @@ namespace GetOnIt.Models
         [Display(Name = "Priority Level")]
         public TaskPriority Priority { get; set; }
 
-
-
         [Display(Name = "Task Complete?")]
         public bool? IsCompleted { get; set; } //nullable because once they create a task they wont fill out this options
 
-        //Foreign Key to Customer User who "owns" the task
-        public string UserId { get; set; } //Using string instead of INT because ASP.NET Core Identity system stores the value as a string.
-        public ApplicationUser User { get; set; }
+        public string UserId { get; set; } 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -53,7 +53,6 @@ namespace GetOnIt.Models
             {
                 yield return new ValidationResult("Deadline cannot be in the past", new[] {"DateEnd"});
             }
-
         }
     }
 }

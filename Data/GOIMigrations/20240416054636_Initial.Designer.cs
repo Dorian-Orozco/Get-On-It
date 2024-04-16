@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetOnIt.Data.GOIMigrations
 {
     [DbContext(typeof(GetOnItContext))]
-    [Migration("20240327181013_Initial")]
+    [Migration("20240416054636_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -77,7 +77,7 @@ namespace GetOnIt.Data.GOIMigrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationUser");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("GetOnIt.Models.Tasks", b =>
@@ -110,18 +110,7 @@ namespace GetOnIt.Data.GOIMigrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("GetOnIt.Models.Tasks", b =>
-                {
-                    b.HasOne("GetOnIt.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

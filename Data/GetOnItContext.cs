@@ -11,5 +11,7 @@ namespace GetOnIt.Data
 
         //Need To Create Data Model and Relationships THEN create DBSets.
         public DbSet<Tasks> Tasks { get; set; }
+
+        public DbSet<ApplicationUser> Users { get; set; }
     }
 }
