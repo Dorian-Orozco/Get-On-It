@@ -33,8 +33,19 @@ namespace GetOnIt.Controllers
             //Get the user logged in by email and then displays information based on user
             var userEmail = User.Identity.Name;
             var user = _userManager.Users.Where(a=>a.Email == userEmail).FirstOrDefault();
-            var activeTasks = _context.Tasks.Where(a => a.UserId == user.Id);
-            return View(await activeTasks.ToListAsync());
+            var allTasks = _context.Tasks.Where(a => a.UserId == user.Id);
+            //Get the tasks due 
+            var taskCount = allTasks.Where(a => a.IsCompleted == false).Count();
+            if(taskCount > 1)
+            {
+                ViewBag.taskCount = taskCount;
+            }
+            else
+            {
+                ViewBag.taskCount = taskCount;
+            }
+
+            return View(await allTasks.ToListAsync());
         }
 
         // GET: Tasks/Details/5
@@ -163,13 +174,20 @@ namespace GetOnIt.Controllers
         public async Task<IActionResult> SetComplete(int id)
         {
             var completedTask = await _context.Tasks.FindAsync(id);
-            if (completedTask != null) { return NotFound(); }
+            if (completedTask == null) { return NotFound(); }
 
             try
             {
-                completedTask.IsCompleted = true;
-                _context.Update(completedTask);
-                await _context.SaveChangesAsync();
+                if(completedTask.IsCompleted == true)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    completedTask.IsCompleted = true;
+                    _context.Update(completedTask);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
