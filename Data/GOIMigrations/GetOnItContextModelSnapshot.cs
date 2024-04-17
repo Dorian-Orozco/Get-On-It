@@ -93,7 +93,7 @@ namespace GetOnIt.Data.GOIMigrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("IsCompleted")
+                    b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Priority")

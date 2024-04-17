@@ -20,12 +20,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateStart" class="control-label"></label>
-                <input asp-for="DateStart" class="form-control" />
+                <input asp-for="DateStart" value="@Model.DateStart.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" />
                 <span asp-validation-for="DateStart" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateEnd" class="control-label"></label>
-                <input asp-for="DateEnd" class="form-control" />
+                <input asp-for="DateEnd" value="@Model.DateEnd.ToString("yyyy-MM-ddTHH:mm:ss")" type="datetime-local" class="form-control" />
                 <span asp-validation-for="DateEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,6 +43,18 @@
                         asp-items="@Html.GetEnumSelectList<TaskPriority>()">
                 </select>
                 <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsCompleted" class="control-label">Is Completed?</label>
+                <div>
+                    <label>
+                        @Html.RadioButtonFor(model => model.IsCompleted, true) Yes
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(model => model.IsCompleted, false) No
+                    </label>
+                </div>
+                <span asp-validation-for="IsCompleted" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="UserId"/>
             <div class="form-group">

@@ -19,12 +19,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateStart" class="control-label"></label>
-                <input asp-for="DateStart" type="date" value="@DateTime.Today" class="form-control" />
+                <input asp-for="DateStart" type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" class="form-control" />
                 <span asp-validation-for="DateStart" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateEnd" class="control-label"></label>
-                <input asp-for="DateEnd" type="date" class="form-control" />
+                <input asp-for="DateEnd" type="datetime-local" class="form-control" />
                 <span asp-validation-for="DateEnd" class="text-danger"></span>
             </div>
 
@@ -33,6 +33,7 @@
                 <select class="form-control"
                         asp-for="Type"
                         asp-items="@Html.GetEnumSelectList<TaskType>()">
+                    <option value="" disabled>Select the Type of Task</option>
                 </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
@@ -42,7 +43,7 @@
                 <select class="form-control"
                         asp-for="Priority"
                         asp-items="@Html.GetEnumSelectList<TaskPriority>()">
-                            <option value="">Select Priority</option>
+                            <option value="" disabled>Select Priority</option>
                 </select>
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
@@ -60,4 +61,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        //When the document/page is ready/loaded..
+        $(document).ready(function () { 
+            $('#Type').val('').prop('selected', true);
+            $('#Priority').val('').prop('selected', true);
+        })
+    </script>
 }

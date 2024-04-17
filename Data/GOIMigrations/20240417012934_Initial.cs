@@ -22,7 +22,7 @@ namespace GetOnIt.Data.GOIMigrations
                     DateEnd = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
                     Priority = table.Column<int>(type: "INTEGER", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: true),
+                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>

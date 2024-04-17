@@ -18,12 +18,12 @@ namespace GetOnIt.Models
 
         [Display(Name = "Start Date")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateStart { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Deadline")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateEnd { get; set; }
 
         [Required(ErrorMessage = "Select Type")]
@@ -35,10 +35,16 @@ namespace GetOnIt.Models
         [Display(Name = "Priority Level")]
         public TaskPriority Priority { get; set; }
 
-        [Display(Name = "Task Complete?")]
-        public bool? IsCompleted { get; set; } //nullable because once they create a task they wont fill out this options
+        [Display(Name = "Task Complete?")] //not required because they wont create a task just to set it to complete
+        public bool IsCompleted { get; set; } //default value of false
 
         public string UserId { get; set; } 
+
+        public Tasks()
+        {
+            DateStart = DateTime.Today;
+            IsCompleted = false;
+        }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

@@ -9,6 +9,7 @@ using GetOnIt.Data;
 using GetOnIt.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Build.Framework;
 
 namespace GetOnIt.Controllers
 {
@@ -32,8 +33,8 @@ namespace GetOnIt.Controllers
             //Get the user logged in by email and then displays information based on user
             var userEmail = User.Identity.Name;
             var user = _userManager.Users.Where(a=>a.Email == userEmail).FirstOrDefault();
-            var getOnItContext = _context.Tasks.Where(a=>a.UserId == user.Id); 
-            return View(await getOnItContext.ToListAsync());
+            var activeTasks = _context.Tasks.Where(a => a.UserId == user.Id);
+            return View(await activeTasks.ToListAsync());
         }
 
         // GET: Tasks/Details/5
@@ -93,13 +94,6 @@ namespace GetOnIt.Controllers
             var tasks = await _context.Tasks.FindAsync(id);
             if (tasks == null)
                 return NotFound();
-
-            //var currentUser = await _userManager.GetUserAsync(User);
-            //if (currentUser != null)
-            //{
-            //    ViewBag.UserID = tasks.UserId;
-            //    await _context.SaveChangesAsync();
-            //}
             return View(tasks);
         }
 
@@ -162,6 +156,29 @@ namespace GetOnIt.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SetComplete(int id)
+        {
+            var completedTask = await _context.Tasks.FindAsync(id);
+            if (completedTask != null) { return NotFound(); }
+
+            try
+            {
+                completedTask.IsCompleted = true;
+                _context.Update(completedTask);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TasksExists(completedTask.Id))
+                    return NotFound();
+                else
+                    throw;
+            }
+            return Ok();
         }
 
         private bool TasksExists(int id) { return _context.Tasks.Any(e => e.Id == id); }
