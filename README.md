@@ -1,5 +1,12 @@
-# Change Log - 
-## [2024-04-18]
+# Change Log -
+Potential Ideas:
+- Add a way to draw on a "whiteboard" 
+- Add a resources section where users can store information they need for a specific assignment (links, images, etc)
+- Calender that displays upcoming events/tasks
+- Reminder before deadline (Week notice, then day of).
+- Dark mode
+- Progress bar / visuals to display the assignments left / upcoming.. dashboard?
+- Resources on mental health, studying, etc
 
 
 ## [2024-04-17]
